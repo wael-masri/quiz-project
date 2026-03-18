@@ -1,0 +1,116 @@
+.dashboard {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard__header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.dashboard__header p {
+  margin-top: 0.3rem;
+  color: #888;
+  font-size: 0.95rem;
+}
+
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.dashboard__section h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 1rem;
+}
+
+.dashboard__restock-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dashboard__restock-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff8f0;
+  border-left: 4px solid #e94560;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+}
+
+.restock-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e94560;
+  background: #fde8ec;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.dashboard__table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.dashboard__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 0.9rem;
+}
+
+.dashboard__table th {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dashboard__table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f2f5;
+  color: #333;
+}
+
+.dashboard__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dashboard__table tbody tr:hover td {
+  background: #f7f8fc;
+}
+
+.dashboard__empty {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.dashboard-status {
+  padding: 3rem;
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+}
+
+.dashboard-status--error {
+  color: #e94560;
+}

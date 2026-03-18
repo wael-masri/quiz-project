@@ -17,6 +17,11 @@ function Navbar() {
           </Link>
         </li>
         <li>
+          <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>
+            Dashboard
+          </Link>
+        </li>
+        <li>
           <Link to="/quizzes" className={location.pathname.startsWith('/quizzes') ? 'active' : ''}>
             Quizzes
           </Link>
