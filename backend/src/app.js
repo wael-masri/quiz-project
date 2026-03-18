@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Quiz API is running' });
+  res.json({ message: 'Nexrush API is running' });
 });
 
 app.use('/api/quizzes', quizRoutes);

@@ -85,7 +85,7 @@ function DashboardPage() {
 
         <section className="dashboard__section dashboard__section--table">
           <h2>Recent Orders</h2>
-          <OrdersTable orders={orders} loading={loading} error={error} />
+          <OrdersTable orders={orders} loading={loading} error={error} onOrderChanged={handleOrderAdded} />
         </section>
       </div>
 

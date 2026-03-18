@@ -1,6 +1,6 @@
-# Quiz & Orders Dashboard — Full Stack Project
+# Nexrush — Orders & Analytics Dashboard
 
-A full-stack web application built with **Node.js/Express** and **React/Vite**. It combines a quiz management system with an orders dashboard featuring data-driven insights and simple machine-learning-style analytics.
+A full-stack web application built with **Node.js/Express** and **React/Vite**. Features an orders management system with data-driven insights and simple machine-learning-style analytics.
 
 ---
 
@@ -160,24 +160,21 @@ Then open: **http://localhost:5173**
 
 ## API Endpoints
 
-### Quizzes — `/api/quizzes`
 
-| Method | Endpoint           | Description       | Body (required)                        |
-|--------|--------------------|-------------------|----------------------------------------|
-| GET    | `/api/quizzes`     | Get all quizzes   | —                                      |
-| GET    | `/api/quizzes/:id` | Get quiz by ID    | —                                      |
-| POST   | `/api/quizzes`     | Create a quiz     | `{ title, questions[] }`               |
-| PUT    | `/api/quizzes/:id` | Update a quiz     | `{ title?, description?, questions? }` |
-| DELETE | `/api/quizzes/:id` | Delete a quiz     | —                                      |
 
 ### Orders — `/api/orders`
 
-| Method | Endpoint       | Description       | Body (required)                         |
-|--------|----------------|-------------------|-----------------------------------------|
-| GET    | `/api/orders`  | Get all orders    | —                                       |
-| POST   | `/api/orders`  | Create an order   | `{ product, quantity (>0), price (≥0) }`|
+| Method | Endpoint         | Description       | Body (required)                         |
+|--------|------------------|-------------------|-----------------------------------------|
+| GET    | `/api/orders`    | Get all orders    | —                                       |
+| POST   | `/api/orders`    | Create an order   | `{ product, quantity (>0), price (≥0) }`|
+| PUT    | `/api/orders/:id`| Update an order   | `{ product?, quantity?, price? }`       |
+| DELETE | `/api/orders/:id`| Delete an order   | —                                       |
 
-> `date` is optional on POST — defaults to the current ISO timestamp if omitted.
+> **Notes:**
+> - `date` is optional on POST — defaults to the current ISO timestamp if omitted.
+> - On PUT, all fields are optional — only provided fields will be updated.
+> - Validation applies: `product` cannot be empty, `quantity` must be positive, `price` must be non-negative.
 
 ### Insights — `/api/insights`
 
