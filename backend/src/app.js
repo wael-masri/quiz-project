@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const quizRoutes = require('./routes/quizRoutes');
+const { notFound, errorHandler } = require('./utils/errorHandler');
 
 const app = express();
 
@@ -16,8 +17,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/quizzes', quizRoutes);
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
