@@ -25,6 +25,11 @@
   gap: 1rem;
 }
 
+.dashboard__section--form {
+  display: flex;
+  flex-direction: column;
+}
+
 .dashboard__section h2 {
   font-size: 1.1rem;
   font-weight: 600;

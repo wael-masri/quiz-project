@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import StatCard from '../components/StatCard';
+import AddOrderForm from '../components/AddOrderForm';
 import { getAllOrders } from '../services/orderService';
 import { getInsights } from '../services/insightService';
 import './DashboardPage.css';
@@ -10,24 +11,24 @@ function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [ordersData, insightsData] = await Promise.all([
-          getAllOrders(),
-          getInsights(),
-        ]);
-        setOrders(ordersData);
-        setInsights(insightsData);
-      } catch (err) {
-        setError('Failed to load dashboard data. Is the backend running?');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+  const fetchData = useCallback(async () => {
+    try {
+      const [ordersData, insightsData] = await Promise.all([
+        getAllOrders(),
+        getInsights(),
+      ]);
+      setOrders(ordersData);
+      setInsights(insightsData);
+    } catch (err) {
+      setError('Failed to load dashboard data. Is the backend running?');
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const totalRevenue = orders.reduce((sum, o) => sum + o.price * o.quantity, 0);
   const totalQuantity = orders.reduce((sum, o) => sum + o.quantity, 0);
@@ -87,6 +88,11 @@ function DashboardPage() {
           </ul>
         </section>
       )}
+
+      <section className="dashboard__section dashboard__section--form">
+        <h2>New Order</h2>
+        <AddOrderForm onOrderAdded={fetchData} />
+      </section>
 
       <section className="dashboard__section">
         <h2>Recent Orders</h2>
