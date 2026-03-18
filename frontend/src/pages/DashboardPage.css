@@ -66,48 +66,6 @@
   white-space: nowrap;
 }
 
-.dashboard__table-wrapper {
-  overflow-x: auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-}
-
-.dashboard__table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  font-size: 0.9rem;
-}
-
-.dashboard__table th {
-  background: #1a1a2e;
-  color: #fff;
-  padding: 0.75rem 1rem;
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.dashboard__table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #f0f2f5;
-  color: #333;
-}
-
-.dashboard__table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.dashboard__table tbody tr:hover td {
-  background: #f7f8fc;
-}
-
-.dashboard__empty {
-  color: #aaa;
-  font-size: 0.9rem;
-}
 
 .dashboard-status {
   padding: 3rem;

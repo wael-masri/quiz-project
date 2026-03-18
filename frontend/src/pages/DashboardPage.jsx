@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import StatCard from '../components/StatCard';
 import AddOrderForm from '../components/AddOrderForm';
+import OrdersTable from '../components/OrdersTable';
 import { getAllOrders } from '../services/orderService';
 import { getInsights } from '../services/insightService';
 import './DashboardPage.css';
@@ -96,34 +97,7 @@ function DashboardPage() {
 
       <section className="dashboard__section">
         <h2>Recent Orders</h2>
-        {orders.length === 0 ? (
-          <p className="dashboard__empty">No orders yet.</p>
-        ) : (
-          <div className="dashboard__table-wrapper">
-            <table className="dashboard__table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Product</th>
-                  <th>Qty</th>
-                  <th>Price</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...orders].reverse().map((order) => (
-                  <tr key={order.id}>
-                    <td>{order.id}</td>
-                    <td>{order.product}</td>
-                    <td>{order.quantity}</td>
-                    <td>${order.price.toFixed(2)}</td>
-                    <td>{new Date(order.date).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <OrdersTable />
       </section>
     </div>
   );
