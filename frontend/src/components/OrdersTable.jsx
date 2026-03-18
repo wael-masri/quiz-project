@@ -1,27 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { getAllOrders } from '../services/orderService';
+import React from 'react';
 import './OrdersTable.css';
 
-function OrdersTable() {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const data = await getAllOrders();
-        setOrders(data);
-      } catch (err) {
-        setError('Failed to load orders. Is the backend running?');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrders();
-  }, []);
-
+function OrdersTable({ orders = [], loading = false, error = null }) {
   if (loading) {
     return <p className="orders-table__state">Loading orders...</p>;
   }

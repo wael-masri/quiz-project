@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +9,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { getInsights } from '../services/insightService';
 import './Insights.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -27,28 +26,10 @@ const BAR_OPTIONS = {
   },
 };
 
-function Insights() {
-  const [insights, setInsights] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchInsights = async () => {
-      try {
-        const data = await getInsights();
-        setInsights(data);
-      } catch (err) {
-        setError('Failed to load insights. Is the backend running?');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchInsights();
-  }, []);
-
+function Insights({ insights = null, loading = false, error = null }) {
   if (loading) return <p className="insights__state">Loading insights...</p>;
   if (error) return <p className="insights__state insights__state--error">{error}</p>;
+  if (!insights) return <p className="insights__state">No insights data yet. Add some orders first.</p>;
 
   const hasTopProducts = insights.topProducts && Object.keys(insights.topProducts).length > 0;
   const hasBusiestHours = insights.busiestHours && Object.keys(insights.busiestHours).length > 0;

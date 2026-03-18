@@ -12,8 +12,10 @@ function DashboardPage() {
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const fetchData = useCallback(async () => {
+    setError(null);
     try {
       const [ordersData, insightsData] = await Promise.all([
         getAllOrders(),
@@ -30,24 +32,20 @@ function DashboardPage() {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, refreshKey]);
+
+  const handleOrderAdded = useCallback(() => {
+    setRefreshKey((k) => k + 1);
+  }, []);
 
   const totalRevenue = orders.reduce((sum, o) => sum + o.price * o.quantity, 0);
   const totalQuantity = orders.reduce((sum, o) => sum + o.quantity, 0);
-  const topProduct = insights
+  const topProduct = insights && Object.keys(insights.topProducts).length > 0
     ? Object.entries(insights.topProducts).sort((a, b) => b[1] - a[1])[0]
     : null;
-  const busiestHour = insights
+  const busiestHour = insights && Object.keys(insights.busiestHours).length > 0
     ? Object.entries(insights.busiestHours).sort((a, b) => b[1] - a[1])[0]
     : null;
-
-  if (loading) {
-    return <div className="dashboard-status">Loading dashboard...</div>;
-  }
-
-  if (error) {
-    return <div className="dashboard-status dashboard-status--error">{error}</div>;
-  }
 
   return (
     <div className="dashboard">
@@ -57,53 +55,40 @@ function DashboardPage() {
       </header>
 
       <section className="dashboard__stats">
-        <StatCard title="Total Orders" value={orders.length} subtitle="All time" />
+        <StatCard title="Total Orders" value={loading ? '…' : orders.length} subtitle="All time" />
         <StatCard
           title="Total Revenue"
-          value={`$${totalRevenue.toFixed(2)}`}
+          value={loading ? '…' : `$${totalRevenue.toFixed(2)}`}
           subtitle="All time"
         />
-        <StatCard title="Units Sold" value={totalQuantity} subtitle="All time" />
+        <StatCard title="Units Sold" value={loading ? '…' : totalQuantity} subtitle="All time" />
         <StatCard
           title="Top Product"
-          value={topProduct ? topProduct[0] : '—'}
+          value={loading ? '…' : (topProduct ? topProduct[0] : '—')}
           subtitle={topProduct ? `${topProduct[1]} units sold` : 'No data yet'}
         />
         <StatCard
           title="Busiest Hour"
-          value={busiestHour ? `${busiestHour[0]}:00` : '—'}
+          value={loading ? '…' : (busiestHour ? `${busiestHour[0]}:00` : '—')}
           subtitle={busiestHour ? `${busiestHour[1]} orders` : 'No data yet'}
         />
       </section>
 
+      <div className="dashboard__columns">
+        <section className="dashboard__section dashboard__section--form">
+          <h2>New Order</h2>
+          <AddOrderForm onOrderAdded={handleOrderAdded} />
+        </section>
+
+        <section className="dashboard__section dashboard__section--table">
+          <h2>Recent Orders</h2>
+          <OrdersTable orders={orders} loading={loading} error={error} />
+        </section>
+      </div>
+
       <section className="dashboard__section">
         <h2>Insights</h2>
-        <Insights />
-      </section>
-
-      {insights?.recommendations?.length > 0 && (
-        <section className="dashboard__section">
-          <h2>Restock Recommendations</h2>
-          <ul className="dashboard__restock-list">
-            {insights.recommendations.map((rec) => (
-              <li key={rec.product} className="dashboard__restock-item">
-                <span className="restock-badge">⚠ Restock</span>
-                <strong>{rec.product}</strong>
-                <span>{rec.totalQuantitySold} units sold</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      <section className="dashboard__section dashboard__section--form">
-        <h2>New Order</h2>
-        <AddOrderForm onOrderAdded={fetchData} />
-      </section>
-
-      <section className="dashboard__section">
-        <h2>Recent Orders</h2>
-        <OrdersTable />
+        <Insights insights={insights} loading={loading} error={error} />
       </section>
     </div>
   );
