@@ -28,6 +28,9 @@ const BAR_OPTIONS = {
 };
 
 function Insights({ insights = null, loading = false, error = null }) {
+  const [showAllProducts, setShowAllProducts] = React.useState(false);
+  const [showAllRecommendations, setShowAllRecommendations] = React.useState(false);
+
   if (loading) return <Spinner message="Loading insights..." />;
   if (error) return <p className="insights__state insights__state--error">{error}</p>;
   if (!insights) return <p className="insights__state">No insights data yet. Add some orders first.</p>;
@@ -77,6 +80,11 @@ function Insights({ insights = null, loading = false, error = null }) {
     ? Object.entries(insights.topProducts).sort((a, b) => b[1] - a[1])
     : [];
 
+  const displayedProducts = showAllProducts ? sortedTopProducts : sortedTopProducts.slice(0, 3);
+  const displayedRecommendations = showAllRecommendations
+    ? insights.recommendations
+    : insights.recommendations?.slice(0, 4) || [];
+
   return (
     <div className="insights">
       <div className="insights__grid">
@@ -87,7 +95,7 @@ function Insights({ insights = null, loading = false, error = null }) {
               <Bar data={topProductsChartData} options={BAR_OPTIONS} />
             </div>
             <ul className="insights__product-list">
-              {sortedTopProducts.map(([product, qty], i) => (
+              {displayedProducts.map(([product, qty], i) => (
                 <li key={product} className="insights__product-item">
                   <span className="insights__rank">#{i + 1}</span>
                   <span className="insights__product-name">{product}</span>
@@ -95,6 +103,14 @@ function Insights({ insights = null, loading = false, error = null }) {
                 </li>
               ))}
             </ul>
+            {sortedTopProducts.length > 3 && (
+              <button
+                className="insights__expand-btn"
+                onClick={() => setShowAllProducts(!showAllProducts)}
+              >
+                {showAllProducts ? 'Show Less' : `See More (${sortedTopProducts.length - 3} more)`}
+              </button>
+            )}
           </div>
         )}
 
@@ -111,7 +127,7 @@ function Insights({ insights = null, loading = false, error = null }) {
           <div className="insights__card">
             <h2 className="insights__card-title">Recommendations</h2>
             <ul className="insights__restock-list">
-              {insights.recommendations.map((rec) => (
+              {displayedRecommendations.map((rec) => (
                 <li
                   key={rec.product}
                   className={`insights__restock-item insights__restock-item--${rec.type}`}
@@ -126,6 +142,14 @@ function Insights({ insights = null, loading = false, error = null }) {
                 </li>
               ))}
             </ul>
+            {insights.recommendations.length > 4 && (
+              <button
+                className="insights__expand-btn"
+                onClick={() => setShowAllRecommendations(!showAllRecommendations)}
+              >
+                {showAllRecommendations ? 'Show Less' : `See More (${insights.recommendations.length - 4} more)`}
+              </button>
+            )}
           </div>
         )}
       </div>

@@ -4,6 +4,7 @@ import { updateOrder, deleteOrder } from '../services/orderService';
 import './OrdersTable.css';
 
 const INITIAL_EDIT = { product: '', quantity: '', price: '' };
+const ITEMS_PER_PAGE = 5;
 
 function OrdersTable({ orders = [], loading = false, error = null, onOrderChanged }) {
   const [editingId, setEditingId] = useState(null);
@@ -11,6 +12,8 @@ function OrdersTable({ orders = [], loading = false, error = null, onOrderChange
   const [editErrors, setEditErrors] = useState({});
   const [busyId, setBusyId] = useState(null);
   const [rowStatus, setRowStatus] = useState({ id: null, type: null, message: '' });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const showRowStatus = (id, type, message) => {
     setRowStatus({ id, type, message });
@@ -89,9 +92,50 @@ function OrdersTable({ orders = [], loading = false, error = null, onOrderChange
   if (error) return <p className="orders-table__state orders-table__state--error">{error}</p>;
   if (orders.length === 0) return <p className="orders-table__state">No orders yet. Add one above!</p>;
 
+  const reversedOrders = [...orders].reverse();
+  const filteredOrders = searchQuery
+    ? reversedOrders.filter((order) =>
+        order.product.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : reversedOrders;
+
+  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedOrders = filteredOrders.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <div className="orders-table__wrapper">
-      <table className="orders-table">
+      <div className="orders-table__controls">
+        <input
+          type="text"
+          className="orders-table__search"
+          placeholder="Search by product name..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        {filteredOrders.length > 0 && (
+          <span className="orders-table__count">
+            {filteredOrders.length} {filteredOrders.length === 1 ? 'order' : 'orders'}
+          </span>
+        )}
+      </div>
+
+      {filteredOrders.length === 0 ? (
+        <p className="orders-table__state">No orders match your search.</p>
+      ) : (
+        <>
+          <table className="orders-table">
         <thead>
           <tr>
             <th>#</th>
@@ -103,7 +147,7 @@ function OrdersTable({ orders = [], loading = false, error = null, onOrderChange
           </tr>
         </thead>
         <tbody>
-          {[...orders].reverse().map((order) => {
+          {paginatedOrders.map((order) => {
             const isEditing = editingId === order.id;
             const isBusy = busyId === order.id;
 
@@ -217,6 +261,30 @@ function OrdersTable({ orders = [], loading = false, error = null, onOrderChange
           })}
         </tbody>
       </table>
+
+          {totalPages > 1 && (
+            <div className="orders-table__pagination">
+              <button
+                className="orders-table__page-btn"
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                ← Previous
+              </button>
+              <span className="orders-table__page-info">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                className="orders-table__page-btn"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next →
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

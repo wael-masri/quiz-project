@@ -130,3 +130,25 @@
   color: #888;
   margin-left: 0.1rem;
 }
+
+.insights__expand-btn {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: #f0f2f5;
+  color: #555;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  align-self: flex-start;
+}
+
+.insights__expand-btn:hover {
+  background: #e2e5ea;
+}
+
+.insights__expand-btn:active {
+  transform: scale(0.96);
+}
