@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import Spinner from '../components/Spinner';
 import StatCard from '../components/StatCard';
 import AddOrderForm from '../components/AddOrderForm';
 import OrdersTable from '../components/OrdersTable';
@@ -47,6 +48,8 @@ function DashboardPage() {
     ? Object.entries(insights.busiestHours).sort((a, b) => b[1] - a[1])[0]
     : null;
 
+  if (loading) return <Spinner message="Loading dashboard..." />;
+
   return (
     <div className="dashboard">
       <header className="dashboard__header">
@@ -55,21 +58,21 @@ function DashboardPage() {
       </header>
 
       <section className="dashboard__stats">
-        <StatCard title="Total Orders" value={loading ? '…' : orders.length} subtitle="All time" />
+        <StatCard title="Total Orders" value={orders.length} subtitle="All time" />
         <StatCard
           title="Total Revenue"
-          value={loading ? '…' : `$${totalRevenue.toFixed(2)}`}
+          value={`$${totalRevenue.toFixed(2)}`}
           subtitle="All time"
         />
-        <StatCard title="Units Sold" value={loading ? '…' : totalQuantity} subtitle="All time" />
+        <StatCard title="Units Sold" value={totalQuantity} subtitle="All time" />
         <StatCard
           title="Top Product"
-          value={loading ? '…' : (topProduct ? topProduct[0] : '—')}
+          value={topProduct ? topProduct[0] : '—'}
           subtitle={topProduct ? `${topProduct[1]} units sold` : 'No data yet'}
         />
         <StatCard
           title="Busiest Hour"
-          value={loading ? '…' : (busiestHour ? `${busiestHour[0]}:00` : '—')}
+          value={busiestHour ? `${busiestHour[0]}:00` : '—'}
           subtitle={busiestHour ? `${busiestHour[1]} orders` : 'No data yet'}
         />
       </section>

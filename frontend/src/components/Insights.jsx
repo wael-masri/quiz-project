@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from './Spinner';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,7 +28,7 @@ const BAR_OPTIONS = {
 };
 
 function Insights({ insights = null, loading = false, error = null }) {
-  if (loading) return <p className="insights__state">Loading insights...</p>;
+  if (loading) return <Spinner message="Loading insights..." />;
   if (error) return <p className="insights__state insights__state--error">{error}</p>;
   if (!insights) return <p className="insights__state">No insights data yet. Add some orders first.</p>;
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createOrder } from '../services/orderService';
 import './AddOrderForm.css';
 
@@ -25,6 +25,12 @@ function AddOrderForm({ onOrderAdded }) {
     }
     return errs;
   };
+
+  useEffect(() => {
+    if (status?.type !== 'success') return;
+    const timer = setTimeout(() => setStatus(null), 4000);
+    return () => clearTimeout(timer);
+  }, [status]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

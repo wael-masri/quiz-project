@@ -1,10 +1,9 @@
 import React from 'react';
+import Spinner from './Spinner';
 import './OrdersTable.css';
 
 function OrdersTable({ orders = [], loading = false, error = null }) {
-  if (loading) {
-    return <p className="orders-table__state">Loading orders...</p>;
-  }
+  if (loading) return <Spinner message="Loading orders..." />;
 
   if (error) {
     return <p className="orders-table__state orders-table__state--error">{error}</p>;

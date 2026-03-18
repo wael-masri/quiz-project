@@ -1,4 +1,5 @@
 const quizService = require('../services/quizService');
+const createError = require('../utils/createError');
 
 const getAllQuizzes = (req, res, next) => {
   try {
@@ -12,11 +13,7 @@ const getAllQuizzes = (req, res, next) => {
 const getQuizById = (req, res, next) => {
   try {
     const quiz = quizService.getQuizById(req.params.id);
-    if (!quiz) {
-      const error = new Error('Quiz not found');
-      error.statusCode = 404;
-      return next(error);
-    }
+    if (!quiz) return next(createError('Quiz not found', 404));
     res.json(quiz);
   } catch (err) {
     next(err);
@@ -25,7 +22,10 @@ const getQuizById = (req, res, next) => {
 
 const createQuiz = (req, res, next) => {
   try {
-    const quiz = quizService.createQuiz(req.body);
+    const { title, description, questions } = req.body;
+    if (!title || title.trim() === '') return next(createError('Field "title" is required', 400));
+    if (!Array.isArray(questions) || questions.length === 0) return next(createError('Field "questions" must be a non-empty array', 400));
+    const quiz = quizService.createQuiz({ title: title.trim(), description, questions });
     res.status(201).json(quiz);
   } catch (err) {
     next(err);
@@ -35,11 +35,7 @@ const createQuiz = (req, res, next) => {
 const updateQuiz = (req, res, next) => {
   try {
     const quiz = quizService.updateQuiz(req.params.id, req.body);
-    if (!quiz) {
-      const error = new Error('Quiz not found');
-      error.statusCode = 404;
-      return next(error);
-    }
+    if (!quiz) return next(createError('Quiz not found', 404));
     res.json(quiz);
   } catch (err) {
     next(err);
@@ -49,11 +45,7 @@ const updateQuiz = (req, res, next) => {
 const deleteQuiz = (req, res, next) => {
   try {
     const deleted = quizService.deleteQuiz(req.params.id);
-    if (!deleted) {
-      const error = new Error('Quiz not found');
-      error.statusCode = 404;
-      return next(error);
-    }
+    if (!deleted) return next(createError('Quiz not found', 404));
     res.json({ message: 'Quiz deleted successfully' });
   } catch (err) {
     next(err);
