@@ -14,16 +14,38 @@ import './Insights.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const LABEL_MAX = 14;
+
+const truncateLabel = (label) =>
+  label.length > LABEL_MAX ? `${label.slice(0, LABEL_MAX)}…` : label;
+
 const BAR_OPTIONS = {
   responsive: true,
-  plugins: { legend: { display: false } },
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      callbacks: {
+        title: (items) => items.map((i) => i.label),
+      },
+    },
+  },
   scales: {
     y: {
       beginAtZero: true,
       ticks: { precision: 0 },
       grid: { color: '#f0f2f5' },
     },
-    x: { grid: { display: false } },
+    x: {
+      grid: { display: false },
+      ticks: {
+        callback: function (val) {
+          const label = this.getLabelForValue(val);
+          return truncateLabel(label);
+        },
+        maxRotation: 30,
+        minRotation: 0,
+      },
+    },
   },
 };
 
@@ -98,7 +120,7 @@ function Insights({ insights = null, loading = false, error = null }) {
               {displayedProducts.map(([product, qty], i) => (
                 <li key={product} className="insights__product-item">
                   <span className="insights__rank">#{i + 1}</span>
-                  <span className="insights__product-name">{product}</span>
+                  <span className="insights__product-name" title={product}>{product}</span>
                   <span className="insights__product-qty">{qty} units</span>
                 </li>
               ))}

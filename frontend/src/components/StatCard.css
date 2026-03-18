@@ -32,6 +32,9 @@
   color: var(--color-primary);
   line-height: 1.2;
   letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .stat-card__subtitle {

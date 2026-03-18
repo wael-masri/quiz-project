@@ -117,8 +117,13 @@
 
 .insights__product-name {
   flex: 1;
+  min-width: 0;
   font-weight: 600;
   color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
 }
 
 .insights__product-qty {
@@ -128,6 +133,8 @@
   background: var(--color-border-light);
   padding: 0.15rem 0.5rem;
   border-radius: 20px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* ── Recommendation list ── */
