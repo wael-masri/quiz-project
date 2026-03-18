@@ -1,4 +1,5 @@
 const RESTOCK_THRESHOLD = 10;
+const LOW_SALES_THRESHOLD = 3;
 
 const getTopProducts = (orders) => {
   return orders.reduce((acc, order) => {
@@ -17,12 +18,18 @@ const getBusiestHours = (orders) => {
 
 const getRecommendations = (topProducts) => {
   return Object.entries(topProducts)
-    .filter(([, totalQty]) => totalQty > RESTOCK_THRESHOLD)
-    .map(([product, totalQty]) => ({
-      product,
-      totalQuantitySold: totalQty,
-      recommendation: 'needs restock',
-    }));
+    .filter(([, totalQty]) => totalQty > RESTOCK_THRESHOLD || totalQty <= LOW_SALES_THRESHOLD)
+    .map(([product, totalQty]) => {
+      const isHighSales = totalQty > RESTOCK_THRESHOLD;
+      return {
+        product,
+        totalQuantitySold: totalQty,
+        type: isHighSales ? 'restock' : 'review',
+        message: isHighSales
+          ? `${product} is selling fast — consider restocking.`
+          : `${product} has low sales (${totalQty} units) — consider reviewing or removing it.`,
+      };
+    });
 };
 
 const getSalesByDay = (orders) => {

@@ -109,17 +109,20 @@ function Insights({ insights = null, loading = false, error = null }) {
 
         {hasRecommendations && (
           <div className="insights__card">
-            <h2 className="insights__card-title">Restock Recommendations</h2>
+            <h2 className="insights__card-title">Recommendations</h2>
             <ul className="insights__restock-list">
               {insights.recommendations.map((rec) => (
-                <li key={rec.product} className="insights__restock-item">
+                <li
+                  key={rec.product}
+                  className={`insights__restock-item insights__restock-item--${rec.type}`}
+                >
                   <div className="insights__restock-header">
-                    <span className="insights__restock-badge">⚠ Restock</span>
+                    <span className={`insights__restock-badge insights__restock-badge--${rec.type}`}>
+                      {rec.type === 'restock' ? '⚠ Restock' : '↓ Review'}
+                    </span>
                     <strong>{rec.product}</strong>
                   </div>
-                  <p className="insights__restock-detail">
-                    {rec.totalQuantitySold} units sold — {rec.recommendation}
-                  </p>
+                  <p className="insights__restock-detail">{rec.message}</p>
                 </li>
               ))}
             </ul>

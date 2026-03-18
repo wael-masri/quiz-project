@@ -83,13 +83,22 @@
 }
 
 .insights__restock-item {
-  background: #fff8f0;
-  border-left: 4px solid #e94560;
   border-radius: 6px;
   padding: 0.75rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  border-left: 4px solid transparent;
+}
+
+.insights__restock-item--restock {
+  background: #fff8f0;
+  border-left-color: #e94560;
+}
+
+.insights__restock-item--review {
+  background: #f4f6ff;
+  border-left-color: #7b8cde;
 }
 
 .insights__restock-header {
@@ -101,11 +110,19 @@
 .insights__restock-badge {
   font-size: 0.72rem;
   font-weight: 700;
-  color: #e94560;
-  background: #fde8ec;
   padding: 0.2rem 0.45rem;
   border-radius: 4px;
   white-space: nowrap;
+}
+
+.insights__restock-badge--restock {
+  color: #e94560;
+  background: #fde8ec;
+}
+
+.insights__restock-badge--review {
+  color: #4a5cbf;
+  background: #e0e4f9;
 }
 
 .insights__restock-detail {
