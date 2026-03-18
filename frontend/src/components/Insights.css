@@ -142,7 +142,8 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.15s, transform 0.1s;
-  align-self: flex-start;
+  width: 100%;
+  text-align: center;
 }
 
 .insights__expand-btn:hover {
