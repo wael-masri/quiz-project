@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import StatCard from '../components/StatCard';
 import AddOrderForm from '../components/AddOrderForm';
 import OrdersTable from '../components/OrdersTable';
+import Insights from '../components/Insights';
 import { getAllOrders } from '../services/orderService';
 import { getInsights } from '../services/insightService';
 import './DashboardPage.css';
@@ -73,6 +74,11 @@ function DashboardPage() {
           value={busiestHour ? `${busiestHour[0]}:00` : '—'}
           subtitle={busiestHour ? `${busiestHour[1]} orders` : 'No data yet'}
         />
+      </section>
+
+      <section className="dashboard__section">
+        <h2>Insights</h2>
+        <Insights />
       </section>
 
       {insights?.recommendations?.length > 0 && (
