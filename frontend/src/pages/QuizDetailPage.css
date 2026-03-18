@@ -1,0 +1,133 @@
+.quiz-detail-container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #e94560;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.quiz-detail-container h1 {
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+
+.quiz-description {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.question-block {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.question-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1a1a2e;
+}
+
+.options {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.option {
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.option:hover {
+  border-color: #e94560;
+  background-color: #fff5f6;
+}
+
+.option.selected {
+  border-color: #e94560;
+  background-color: #fff0f2;
+}
+
+.option.correct {
+  border-color: #27ae60;
+  background-color: #eafaf1;
+  color: #1e8449;
+}
+
+.option.wrong {
+  border-color: #e74c3c;
+  background-color: #fdf0ef;
+  color: #c0392b;
+}
+
+.btn-submit {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.75rem 2.5rem;
+  background-color: #e94560;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #c73652;
+}
+
+.btn-submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.result {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #1a1a2e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.status-msg {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.status-msg.error {
+  color: #e94560;
+}
