@@ -6,6 +6,23 @@ import './OrdersTable.css';
 const INITIAL_EDIT = { product: '', quantity: '', price: '' };
 const ITEMS_PER_PAGE = 5;
 
+function HighlightText({ text, query }) {
+  if (!query.trim()) return <>{text}</>;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, i) =>
+        regex.test(part) ? (
+          <mark key={i} className="orders-table__highlight">{part}</mark>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 function OrdersTable({ orders = [], loading = false, error = null, onOrderChanged }) {
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState(INITIAL_EDIT);
@@ -155,7 +172,7 @@ function OrdersTable({ orders = [], loading = false, error = null, onOrderChange
               <React.Fragment key={order.id}>
                 <tr className={isEditing ? 'orders-table__row--editing' : ''}>
                   <td>{order.id}</td>
-                  <td>{order.product}</td>
+                  <td><HighlightText text={order.product} query={searchQuery} /></td>
                   <td>{order.quantity}</td>
                   <td>${order.price.toFixed(2)}</td>
                   <td>{new Date(order.date).toLocaleDateString()}</td>

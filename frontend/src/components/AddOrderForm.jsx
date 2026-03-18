@@ -69,8 +69,6 @@ function AddOrderForm({ onOrderAdded }) {
 
   return (
     <form className="add-order-form" onSubmit={handleSubmit} noValidate>
-      <h2 className="add-order-form__title">Add Order</h2>
-
       <div className="add-order-form__field">
         <label htmlFor="product">Product</label>
         <input
